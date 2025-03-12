@@ -10,6 +10,9 @@ import { ProductsModule } from './modules/products/products.module';
 import { QueueModule } from './queue/queue.module';
 import { UsersModule } from './modules/users/users.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { PaymentModule } from './modules/payment/payment.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -31,6 +34,10 @@ import { CategoriesModule } from './modules/categories/categories.module';
         host: 'localhost',
         port: 6379,
       },
+      defaultJobOptions: {
+        attempts: 5,
+        backoff: { type: 'exponential', delay: 1000 },
+      },
     }),
     BullBoardModule.forRoot({
       route: '/queue',
@@ -40,6 +47,9 @@ import { CategoriesModule } from './modules/categories/categories.module';
     QueueModule,
     UsersModule,
     CategoriesModule,
+    PaymentModule,
+    OrdersModule,
+    InventoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

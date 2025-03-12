@@ -1,14 +1,13 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable } from '@nestjs/common';
 import { Queue } from 'bullmq';
+import { AppDTO } from 'src/app.controller';
 
 @Injectable()
 export class QueueService {
-  constructor(@InjectQueue('myQueue') private readonly myQueue: Queue) {}
+  constructor(@InjectQueue('paymentQueue') private readonly myQueue: Queue) {}
 
-  async addJob() {
-    await this.myQueue.add('myJob', {
-      data: 'Exemplo de dados',
-    });
+  async addJob(job: AppDTO) {
+    await this.myQueue.add('paymentJob', job);
   }
 }
