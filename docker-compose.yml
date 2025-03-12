@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: usuario 
+      POSTGRES_PASSWORD: password 
+      POSTGRES_DB: ecommerce 
+    ports:
+      - "5432:5432" 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+    networks:
+      - app-network
+
+  redis:
+    image: redis:6 
+    container_name: redis
+    ports:
+      - "6379:6379" 
+    networks:
+      - app-network
+
+    
+  pgadmin:
+    image: dpage/pgadmin4 
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123 
+    ports:
+      - "8080:80" 
+    networks:
+      - app-network
+    depends_on:
+      - postgres 
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data: 
